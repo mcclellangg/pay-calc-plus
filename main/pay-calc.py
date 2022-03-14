@@ -72,6 +72,11 @@ grossLbl = tk.Label(root, text="Enter gross pay: ", anchor="w")
 grossField = tk.Entry(root)
 calcBtn = tk.Button(root, text="Calculate", command=create_paycheck)
 addRecordsBtn = tk.Button(root, text="Add All Entries", command=insert_paychecks)
+clearEntriesBtn = tk.Button(
+    root,
+    text="Clear Entries",
+    command=lambda: tree_display.delete(*tree_display.get_children()),
+)
 
 
 nameLbl.config(width=18)
@@ -82,6 +87,7 @@ grossLbl.config(width=18)
 grossField.config(width=40)
 calcBtn.config(width=25)
 addRecordsBtn.config(width=20)
+clearEntriesBtn.config(width=20)
 
 
 nameLbl.grid(row=0, column=0, padx=(20, 8), pady=(20, 8))
@@ -92,6 +98,7 @@ grossLbl.grid(row=2, column=0, padx=(20, 8), pady=(0, 12))
 grossField.grid(row=2, column=1, pady=(0, 12))
 calcBtn.grid(row=3, column=0, padx=(60, 8), pady=(0, 8))
 addRecordsBtn.grid(row=5, column=0, pady=(8, 8))
+clearEntriesBtn.grid(row=5, column=1, pady=(8, 8))
 
 
 # Add the tree:
