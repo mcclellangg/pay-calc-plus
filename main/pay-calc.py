@@ -3,6 +3,7 @@
 import tkinter as tk
 from tkinter import ttk
 import calculations as calc
+import db_commands as db
 import datetime
 
 
@@ -47,7 +48,20 @@ def create_paycheck():
 
 def insert_paychecks():
     """Will take paychecks from tree display and add them to sqlite database."""
-    print("This will display the records")
+    for child in tree_display.get_children():
+        record = {
+            "date": tree_display.item(child)["text"],
+            "employee": tree_display.item(child)["values"][0],
+            "exemptions": tree_display.item(child)["values"][1],
+            "gross_pay": tree_display.item(child)["values"][2],
+            "federal": tree_display.item(child)["values"][3],
+            "social": tree_display.item(child)["values"][4],
+            "medicare": tree_display.item(child)["values"][5],
+            "state": tree_display.item(child)["values"][6],
+            "net_deduct": tree_display.item(child)["values"][7],
+            "net_pay": tree_display.item(child)["values"][8],
+        }
+        db.submit(record)
 
 
 nameLbl = tk.Label(root, text="Enter employee name : ", anchor="w")
