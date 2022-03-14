@@ -45,6 +45,11 @@ def create_paycheck():
     count += 1
 
 
+def insert_paychecks():
+    """Will take paychecks from tree display and add them to sqlite database."""
+    print("This will display the records")
+
+
 nameLbl = tk.Label(root, text="Enter employee name : ", anchor="w")
 nameField = tk.Entry(root)
 exemptionsLbl = tk.Label(root, text="Enter exemptions :  ", anchor="w")
@@ -52,6 +57,7 @@ exemptionsField = tk.Entry(root)
 grossLbl = tk.Label(root, text="Enter gross pay: ", anchor="w")
 grossField = tk.Entry(root)
 calcBtn = tk.Button(root, text="Calculate", command=create_paycheck)
+addRecordsBtn = tk.Button(root, text="Add All Entries", command=insert_paychecks)
 
 
 nameLbl.config(width=18)
@@ -61,6 +67,7 @@ exemptionsField.config(width=40)
 grossLbl.config(width=18)
 grossField.config(width=40)
 calcBtn.config(width=25)
+addRecordsBtn.config(width=20)
 
 
 nameLbl.grid(row=0, column=0, padx=(20, 8), pady=(20, 8))
@@ -70,6 +77,7 @@ exemptionsField.grid(row=1, column=1, pady=(0, 8))
 grossLbl.grid(row=2, column=0, padx=(20, 8), pady=(0, 12))
 grossField.grid(row=2, column=1, pady=(0, 12))
 calcBtn.grid(row=3, column=0, padx=(60, 8), pady=(0, 8))
+addRecordsBtn.grid(row=5, column=0, pady=(8, 8))
 
 
 # Add the tree:
