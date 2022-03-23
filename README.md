@@ -22,5 +22,5 @@ Limitations and issues:
   - Salary is in the range of $0 - $90,325
 
 ## Demo
-![main-screen-demo-pic](demo-calc.PNG)
-![records-screen-pic](demo-records.PNG)
+![main-screen-demo-pic](calc.PNG)
+![records-screen-pic](records.PNG)
