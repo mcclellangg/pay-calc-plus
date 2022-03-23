@@ -9,7 +9,7 @@ records = db.query()
 
 def open_records_window():
     top = Toplevel()
-    top.title("Records Display")
+    top.title("Pay-Calc+")
     top.geometry("750x450+850+250")
 
     displayFrame = tk.LabelFrame(top, text="Paycheck Records")
@@ -30,16 +30,16 @@ def open_records_window():
 
     # Format the columns:
     tree_display.column("#0", width=0, stretch="NO")
-    tree_display.column("Date", width=80, minwidth=25)
-    tree_display.column("Name", anchor="w", width=60)
-    tree_display.column("Exemptions", anchor="center", width=80)
+    tree_display.column("Date", width=60, minwidth=25)
+    tree_display.column("Name", anchor="w", width=75)
+    tree_display.column("Exemptions", anchor="center", width=65)
     tree_display.column("Gross Pay", anchor="w", width=60)
-    tree_display.column("Federal", anchor="center", width=60)
-    tree_display.column("Social", anchor="center", width=60)
-    tree_display.column("Medicare", anchor="center", width=60)
-    tree_display.column("State", anchor="center", width=60)
-    tree_display.column("Net", anchor="center", width=60)
-    tree_display.column("Net Pay", anchor="center", width=60)
+    tree_display.column("Federal", anchor="w", width=60)
+    tree_display.column("Social", anchor="w", width=60)
+    tree_display.column("Medicare", anchor="w", width=60)
+    tree_display.column("State", anchor="w", width=60)
+    tree_display.column("Net", anchor="w", width=60)
+    tree_display.column("Net Pay", anchor="w", width=60)
 
     # Create Headings:
     tree_display.heading("#0", text="", anchor="center")
@@ -57,5 +57,5 @@ def open_records_window():
     for record in records:
         tree_display.insert(parent="", index="end", values=(record))
 
-    displayFrame.pack()
-    tree_display.pack()
+    displayFrame.pack(fill="x")
+    tree_display.pack(fill="x")

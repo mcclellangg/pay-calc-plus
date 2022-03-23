@@ -110,7 +110,7 @@ tree_display["columns"] = (
     "Net Pay",
 )
 # Format the columns:
-tree_display.column("#0", width=80, minwidth=25)  # '#0' is the phantom column
+tree_display.column("#0", width=70, minwidth=25, anchor="w")  # '#0' is the phantom column
 tree_display.column("Name", anchor="w", width=60)
 tree_display.column("Exemptions", anchor="center", width=80)
 tree_display.column("Gross Pay", anchor="w", width=60)
@@ -122,7 +122,7 @@ tree_display.column("Net", anchor="center", width=60)
 tree_display.column("Net Pay", anchor="center", width=60)
 
 # Create Headings:
-tree_display.heading("#0", text="Timestamp", anchor="w")
+tree_display.heading("#0", text="Date", anchor="w")
 tree_display.heading("Name", text="Name", anchor="w")
 tree_display.heading("Exemptions", text="Exemptions", anchor="w")
 tree_display.heading("Gross Pay", text="Gross Pay", anchor="w")
