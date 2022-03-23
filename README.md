@@ -23,4 +23,4 @@ Limitations and issues:
 
 ## Demo
 ![main-screen-pic](https://raw.githubusercontent.com/mcclellangg/pay-calc-plus/dev/images/calc.png)
-![records-screen-pic](/images/records.PNG)
+![records-screen-pic](https://raw.githubusercontent.com/mcclellangg/pay-calc-plus/dev/images/records.png)
