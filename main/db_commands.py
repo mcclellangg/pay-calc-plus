@@ -66,8 +66,8 @@ def query():
 
     c.execute("SELECT *, oid FROM paychecks")
     records = c.fetchall()
-    print(records)
 
-    # Commit changes, and close connection
     conn.commit()
     conn.close()
+
+    return records

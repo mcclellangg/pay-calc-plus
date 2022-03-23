@@ -1,15 +1,16 @@
 # pay-calc.py
 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import Toplevel, ttk
 import calculations as calc
 import db_commands as db
 import datetime
+import records_window as rw
 
 
 root = tk.Tk()
 root.title("Pay-Calc+")
-root.geometry("750x450")
+root.geometry("750x450+250+250")
 
 count = 0  # iid for paychecks in treeview UNIQUE
 
@@ -144,7 +145,9 @@ clearEntriesBtn = tk.Button(
     text="Clear Entries",
     command=lambda: tree_display.delete(*tree_display.get_children()),
 )
-displayRecordsBtn = tk.Button(buttonFrame, text="Display Records")
+displayRecordsBtn = tk.Button(
+    buttonFrame, text="Display Records", command=rw.open_records_window
+)
 
 addRecordsBtn.config(width=20)
 clearEntriesBtn.config(width=20)
