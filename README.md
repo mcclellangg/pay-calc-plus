@@ -22,5 +22,5 @@ Limitations and issues:
   - Salary is in the range of $0 - $90,325
 
 ## Demo
-![main-screen-pic](/images/calc.PNG)
+![main-screen-pic](https://raw.githubusercontent.com/mcclellangg/pay-calc-plus/dev/images/calc.png)
 ![records-screen-pic](/images/records.PNG)
