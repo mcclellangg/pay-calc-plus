@@ -3,7 +3,8 @@
 ## Overview
 
 This is a desktop GUI app made with python, and tkinter. It takes input from the user (employee name, gross pay, exemptions)
-and calculates weekly paycheck deductions automatically.
+and calculates weekly paycheck deductions automatically. The calculated paychecks can optionally be stored in a sqlite database.
+The Display Records button will then open a new window and display the paychecks in the tkinter tree display.
 
 State deductions are calculated using formulas from the [Virginia Income Tax Withholding Guide](https://www.tax.virginia.gov/sites/default/files/inline-files/Employer%20Withholding%20Instructions.pdf).
 
@@ -21,4 +22,5 @@ Limitations and issues:
   - Salary is in the range of $0 - $90,325
 
 ## Demo
-![Example](demo.PNG)
+![main-screen-demo-pic](demo-calc.PNG)
+![records-screen-pic](demo-records.PNG)
