@@ -1,5 +1,6 @@
-# pay-calc.py
-
+"""
+Main program execution.
+"""
 import tkinter as tk
 from tkinter import Toplevel, ttk
 import calculations as calc

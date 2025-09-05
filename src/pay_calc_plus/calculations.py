@@ -1,4 +1,3 @@
-# calculations
 """
    A module created to store all of the paycheck calculations. The calculate function, will be
    a master function of sorts that combines all of the smaller deduction calculations, all calculations

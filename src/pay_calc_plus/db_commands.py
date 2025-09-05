@@ -1,4 +1,7 @@
-# db-commands.py
+"""
+Commands for interacting with sqlite database.
+"""
+
 import sqlite3
 
 # Initialize db and connection

@@ -68,3 +68,6 @@ venv.bak/
 
 # Settings
 .vscode
+
+# Captain's Log
+logbook.md
