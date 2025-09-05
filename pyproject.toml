@@ -1,0 +1,10 @@
+[project]
+name = "pay-calc-plus"
+version = "0.1.0"
+description = "Desktop GUI app created with Python, Tkinter and SQLite to automate weekly payroll deductions based on tax documentation."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "black>=25.1.0",
+    "pytest>=8.4.2",
+]
