@@ -1,9 +1,11 @@
 """
-   A module created to store all of the paycheck calculations. The calculate function, will be
-   a master function of sorts that combines all of the smaller deduction calculations, all calculations
-   will be based on gross pay, and number of exemptions set by the user.
+A module created to store all of the paycheck calculations. The calculate function, will be
+a master function of sorts that combines all of the smaller deduction calculations, all calculations
+will be based on gross pay, and number of exemptions set by the user.
 """
+
 import datetime
+
 
 def calc_state(G: float, E1: int) -> float:
     """
