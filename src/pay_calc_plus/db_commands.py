@@ -64,6 +64,7 @@ def submit(record):
 
 
 def query():
+    print("Initiating query connection...")
     conn = sqlite3.connect("payroll.db")
     c = conn.cursor()
 
