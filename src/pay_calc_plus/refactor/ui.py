@@ -2,30 +2,32 @@
 Main UI window.
 """
 import tkinter
-from config import FORM_FIELDS, GEOMETRY, TITLE
+from config import GEOMETRY, TITLE, WIDGETS
 
 class MainWindow:
     def __init__(self):
         # Read data from config and run app
-        self.settings = {"title": TITLE, "geometry": GEOMETRY, "form_fields": FORM_FIELDS}
+        self.settings = {"title": TITLE, "geometry": GEOMETRY, "widgets": WIDGETS}
         self.tk = tkinter.Tk()
         self.setup()
     
     def setup(self):
         self.tk.title(self.settings["title"])
         self.tk.geometry(self.settings["geometry"])
-        self.form_widget()
+        self.load_widgets()
     
-    def form_widget(self):
+    def load_widgets(self):
         """ 
-        Cleanup.
+        Load widgets from config.
         """
-        for field, widgets in self.settings["form_fields"].items():
-            for widget in widgets:
-                if widget["type"] == "label":
-                    tkinter.Label(self.tk, text=widget["text"], anchor=widget["anchor"], width=widget["width"])
-                elif widget["type"] == "entry":
-                    tkinter.Entry(self.tk, width=widget["width"])
+        for widget_config in self.settings["widgets"].values():
+            coordinates = widget_config["coordinates"]
+            params = widget_config["params"]
+            if widget_config["type"] == "label":
+                tkinter.Label(self.tk, **params).grid(**coordinates)
+
+            elif widget_config["type"] == "entry":
+                tkinter.Entry(self.tk, **params).grid(**coordinates)
 
     def run(self):
         self.tk.mainloop()
