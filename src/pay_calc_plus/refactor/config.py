@@ -44,4 +44,76 @@ WIDGETS = {
     },
 }
 
-TREEVIEW = {"record_display": {}}
+TREEVIEW = {
+    "record_display": {
+        "#0": {
+            "column_params": {
+                "column": "#0",
+                "width": 60,
+                "stretch": "no",
+                "anchor": "w",
+            },
+            "heading_params": {"column": "#0", "text": "Date", "anchor": "w"},
+        },
+        "Name": {
+            "column_params": {"column": "Name", "anchor": "w", "width": 60},
+            "heading_params": {"column": "Name", "text": "Name", "anchor": "w"},
+        },
+        "Exemptions": {
+            "column_params": {"column": "Exemptions", "anchor": "center", "width": 80},
+            "heading_params": {
+                "column": "Exemptions",
+                "text": "Exemptions",
+                "anchor": "w",
+            },
+        },
+        "Gross Pay": {
+            "column_params": {"column": "Gross Pay", "anchor": "w", "width": 60},
+            "heading_params": {
+                "column": "Gross Pay",
+                "text": "Gross Pay",
+                "anchor": "w",
+            },
+        },
+        "Federal": {
+            "column_params": {"column": "Federal", "anchor": "center", "width": 60},
+            "heading_params": {
+                "column": "Federal",
+                "text": "Federal",
+                "anchor": "center",
+            },
+        },
+        "Social": {
+            "column_params": {"column": "Social", "anchor": "center", "width": 60},
+            "heading_params": {
+                "column": "Social",
+                "text": "Social",
+                "anchor": "center",
+            },
+        },
+        "Medicare": {
+            "column_params": {"column": "Medicare", "anchor": "center", "width": 60},
+            "heading_params": {
+                "column": "Medicare",
+                "text": "Medicare",
+                "anchor": "center",
+            },
+        },
+        "State": {
+            "column_params": {"column": "State", "anchor": "center", "width": 60},
+            "heading_params": {"column": "State", "text": "State", "anchor": "center"},
+        },
+        "Net": {
+            "column_params": {"column": "Net", "anchor": "center", "width": 60},
+            "heading_params": {"column": "Net", "text": "Net", "anchor": "center"},
+        },
+        "Net Pay": {
+            "column_params": {"column": "Net Pay", "anchor": "center", "width": 60},
+            "heading_params": {
+                "column": "Net Pay",
+                "text": "Net Pay",
+                "anchor": "center",
+            },
+        },
+    }
+}
