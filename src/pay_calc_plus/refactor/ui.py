@@ -8,8 +8,15 @@ class MainWindow:
     def __init__(self):
         # Read data from config and run app
         self.settings = {"title": TITLE, "geometry": GEOMETRY, "widgets": WIDGETS}
+        self.commands = {
+            "calculate": self.calculate_paycheck
+        }
         self.tk = tkinter.Tk()
         self.setup()
+    
+    def calculate_paycheck(self):
+        """To be imported from separate module"""
+        print("calculating paycheck ...")
     
     def setup(self):
         self.tk.title(self.settings["title"])
@@ -28,6 +35,14 @@ class MainWindow:
 
             elif widget_config["type"] == "entry":
                 tkinter.Entry(self.tk, **params).grid(**coordinates)
+            
+            elif widget_config["type"] == "button":
+                try:
+                    cmd_key = params["command"]
+                    params["command"] = self.commands[cmd_key]
+                except KeyError as e:
+                    print(f"ERROR button requires command: {e}")
+                tkinter.Button(self.tk, **params).grid(**coordinates)
 
     def run(self):
         self.tk.mainloop()
