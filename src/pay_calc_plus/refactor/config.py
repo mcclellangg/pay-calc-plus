@@ -2,10 +2,6 @@ TITLE = "Pay-Calc+"
 GEOMETRY = "750x450+250+250"
 
 
-def foo_cmd():
-    print("Button clicked!")
-
-
 WIDGETS = {
     "name_label": {
         "type": "label",
