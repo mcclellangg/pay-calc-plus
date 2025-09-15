@@ -39,10 +39,11 @@ class Paycheck:
     def __post_init__(self):
         if self.gross_pay < 0:
             raise ValueError("Gross pay must be positive")
+        self.execute_calculations()
 
     def calculate_deductions(self):
         """
-        Calculate deductions based on employee gross pay, and exemptions.
+        Calculate and update deductions based on employee gross pay, and exemptions.
         """
         gross = self.gross_pay
         exemptions = self.exemptions
@@ -53,6 +54,7 @@ class Paycheck:
         self.deductions.medicare = round((gross * MEDICARE_PERCENTAGE), 2)
 
     def calculate_net_pay(self):
+        """Calculates and updates net pay."""
         self.net_pay = self.gross_pay - self.deductions.total
 
     def execute_calculations(self):

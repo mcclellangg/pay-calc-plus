@@ -2,9 +2,11 @@
 Main UI window.
 """
 
+from datetime import date
 import tkinter as tk
 from tkinter import ttk
 from config import GEOMETRY, TITLE, TREEVIEW, WIDGETS
+from payroll_models import Deductions, Paycheck
 
 
 class MainWindow:
@@ -16,14 +18,43 @@ class MainWindow:
             "treeview": TREEVIEW,
             "widgets": WIDGETS,
         }
-        self.commands = {"calculate": self.calculate_paycheck}
+        self.commands = {"calculate": self.create_paycheck}
         self.widgets = {}
         self.root = tk.Tk()
         self.setup()
 
-    def calculate_paycheck(self):
-        """To be imported from separate module"""
-        print("calculating paycheck ...")
+    def create_paycheck(self):
+        paycheck_data = self.convert_entry(self.get_entry_values())
+        return Paycheck(**paycheck_data)
+
+    def get_entry_values(self):
+        """Retrieve key and value pairs for all entry widgets."""
+        entry_name_to_value = {}
+
+        for widget_name in self.widgets.keys():
+            if "entry" in widget_name:
+                entry_name_to_value[widget_name] = self.widgets[widget_name].get()
+
+        return entry_name_to_value
+
+    def convert_entry(self, entry: dict) -> dict:
+        """
+        Create a dict of expected types to create Paycheck object from user input.
+        """
+        paycheck_data = {
+            "employee_name": "",
+            "exemptions": 0,
+            "gross_pay": 0.0,
+            "pay_date": date(2024, 1, 15),  # NOTE: PLACEHOLDER VALUE
+        }
+        try:
+            paycheck_data["exemptions"] = int(entry["exemptions_entry"])
+            paycheck_data["gross_pay"] = float(entry["gross_entry"])
+            paycheck_data["employee_name"] = entry["name_entry"]
+        except KeyError as e:
+            print(f"Key error during entry conversion: {e}")
+
+        return paycheck_data
 
     def setup(self):
         self.root.title(self.settings["title"])

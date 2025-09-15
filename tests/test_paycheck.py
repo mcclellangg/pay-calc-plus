@@ -15,7 +15,7 @@ class TestPaycheck:
     @pytest.fixture
     def sample_paycheck_data(self):
         return {
-            "deductions": Deductions(),
+            # "deductions": "a bad value",
             "employee_name": "John Doe",
             "exemptions": 2,
             "gross_pay": 900.0,
