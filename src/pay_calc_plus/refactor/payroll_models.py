@@ -8,7 +8,7 @@ from pay_calc_plus.refactor.calculations import (
     calc_federal_withholding,
     calc_state_withholding,
 )
-from dataclasses import dataclass, field
+from dataclasses import astuple, dataclass, field
 from datetime import datetime
 
 MEDICARE_PERCENTAGE = 0.0145
@@ -60,3 +60,10 @@ class Paycheck:
     def execute_calculations(self):
         self.calculate_deductions()
         self.calculate_net_pay()
+
+    def to_tuple(self):
+        """
+        tuple format:
+        ((75.0, 41.0, 55.8, 13.05), 'John Doe', 2, 900.0, 715.15, datetime.date(2024, 1, 15))
+        """
+        return astuple(self)

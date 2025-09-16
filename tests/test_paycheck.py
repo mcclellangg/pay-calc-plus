@@ -6,7 +6,7 @@ Tests for
 
 import pytest
 from datetime import datetime, date
-from pay_calc_plus.refactor.payroll_models import Deductions, Paycheck
+from pay_calc_plus.refactor.payroll_models import Paycheck
 
 
 class TestPaycheck:
@@ -43,6 +43,12 @@ class TestPaycheck:
         assert paycheck.deductions.medicare == float(13.05)
         assert paycheck.deductions.state == float(41.0)
         assert paycheck.deductions.total == float(184.85)
+
+    def test_paycheck_to_tuple(self, sample_paycheck_data):
+        paycheck = Paycheck(**sample_paycheck_data)
+        tup = paycheck.to_tuple()
+        # print(tup) # ((75.0, 41.0, 55.8, 13.05), 'John Doe', 2, 900.0, 715.15, datetime.date(2024, 1, 15))
+        assert tup[:-1] == ((75.0, 41.0, 55.8, 13.05), "John Doe", 2, 900.0, 715.15)
 
 
 if __name__ == "__main__":

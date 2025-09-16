@@ -5,8 +5,8 @@ Main UI window.
 from datetime import date
 import tkinter as tk
 from tkinter import ttk
-from config import GEOMETRY, TITLE, TREEVIEW, WIDGETS
-from payroll_models import Deductions, Paycheck
+from pay_calc_plus.refactor.config import GEOMETRY, TITLE, TREEVIEW, WIDGETS
+from pay_calc_plus.refactor.payroll_models import Paycheck
 
 
 class MainWindow:
@@ -21,6 +21,7 @@ class MainWindow:
         self.commands = {"calculate": self.create_paycheck}
         self.widgets = {}
         self.root = tk.Tk()
+        self.tree = self.load_tree_view()
         self.setup()
 
     def create_paycheck(self):
@@ -60,7 +61,6 @@ class MainWindow:
         self.root.title(self.settings["title"])
         self.root.geometry(self.settings["geometry"])
         self.load_widgets()
-        self.load_tree_view()
 
     def load_widgets(self):
         """
@@ -113,7 +113,14 @@ class MainWindow:
             if heading_params:
                 tree.heading(**heading_params)
 
-        tree.pack()
+        self.tree = tree
+        self.tree.pack()
+
+    def update_tree_display(self):
+        """
+        Add paycheck record to tree display.
+        """
+        pass
 
     def run(self):
         self.root.mainloop()
