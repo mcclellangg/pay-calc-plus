@@ -8,7 +8,7 @@ from pay_calc_plus.refactor.calculations import (
     calc_federal_withholding,
     calc_state_withholding,
 )
-from dataclasses import astuple, dataclass, field
+from dataclasses import asdict, astuple, dataclass, field
 from datetime import datetime
 
 MEDICARE_PERCENTAGE = 0.0145
@@ -67,3 +67,10 @@ class Paycheck:
         ((75.0, 41.0, 55.8, 13.05), 'John Doe', 2, 900.0, 715.15, datetime.date(2024, 1, 15))
         """
         return astuple(self)
+
+    def to_dict(self):
+        """
+        dict format:
+        {'deductions': {'federal': 75.0, 'state': 41.0, 'social': 55.8, 'medicare': 13.05}, 'employee_name': 'John Doe', 'exemptions': 2, 'gross_pay': 900.0, 'net_pay': 715.15, 'pay_date': datetime.date(2024, 1, 15)}
+        """
+        return asdict(self)

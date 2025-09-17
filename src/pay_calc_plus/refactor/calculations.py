@@ -6,8 +6,6 @@ Calculations:
 - social security
 """
 
-from datetime import datetime
-
 
 def calc_state_withholding(g: float, e: int) -> float:
     """

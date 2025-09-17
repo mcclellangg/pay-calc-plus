@@ -50,6 +50,12 @@ class TestPaycheck:
         # print(tup) # ((75.0, 41.0, 55.8, 13.05), 'John Doe', 2, 900.0, 715.15, datetime.date(2024, 1, 15))
         assert tup[:-1] == ((75.0, 41.0, 55.8, 13.05), "John Doe", 2, 900.0, 715.15)
 
+    def test_paycheck_to_dict(self, sample_paycheck_data):
+        paycheck = Paycheck(**sample_paycheck_data)
+        d = paycheck.to_dict()
+        print(d)
+        assert sample_paycheck_data["gross_pay"] == d["gross_pay"]
+
 
 if __name__ == "__main__":
     # Run the tests
