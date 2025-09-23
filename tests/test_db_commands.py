@@ -5,7 +5,7 @@ Tests for
 
 import pytest
 from datetime import datetime, date
-from pay_calc_plus.refactor.coordinator import PayrollCoordinator
+from pay_calc_plus.coordinator import PayrollCoordinator
 
 
 class TestDbCommands:

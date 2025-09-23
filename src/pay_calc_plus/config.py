@@ -1,6 +1,6 @@
 from pathlib import Path
 
-# PROJECT_ROOT = Path(__file__).resolve().parents[3] # NOTE: Change to 2 after refactor
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 TITLE = "Pay-Calc+"

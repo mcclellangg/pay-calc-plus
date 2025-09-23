@@ -5,8 +5,8 @@ Tests for
 """
 
 import pytest
-from datetime import datetime, date
-from pay_calc_plus.refactor.payroll_models import Paycheck
+from datetime import date
+from pay_calc_plus.payroll_models import Paycheck
 
 
 class TestPaycheck:

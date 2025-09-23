@@ -4,7 +4,7 @@ Payroll models:
 - Deductions
 """
 
-from pay_calc_plus.refactor.calculations import (
+from pay_calc_plus.calculations import (
     calc_federal_withholding,
     calc_state_withholding,
 )

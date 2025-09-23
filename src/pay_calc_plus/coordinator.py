@@ -2,7 +2,7 @@
 PayrollCoordinator
 """
 
-from pay_calc_plus.refactor.payroll_models import Paycheck
+from pay_calc_plus.payroll_models import Paycheck
 import sqlite3
 
 DB_CONNECTION_STRING = "payroll.db"

@@ -5,9 +5,9 @@ Main UI window.
 from datetime import datetime
 import tkinter as tk
 from tkinter import ttk
-from pay_calc_plus.refactor.config import GEOMETRY, TITLE, TREEVIEW, WIDGETS
-from pay_calc_plus.refactor.payroll_models import Paycheck
-from pay_calc_plus.refactor.coordinator import PayrollCoordinator
+from pay_calc_plus.config import GEOMETRY, TITLE, TREEVIEW, WIDGETS
+from pay_calc_plus.payroll_models import Paycheck
+from pay_calc_plus.coordinator import PayrollCoordinator
 
 
 class MainWindow:

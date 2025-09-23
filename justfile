@@ -5,8 +5,7 @@ set shell := ["powershell.exe", "-c"]
 format:
     black src\pay_calc_plus\*.py
     black tests\*.py
-    black src\pay_calc_plus\refactor\*.py
 
 # Run dev
 dev:
-    python src\pay_calc_plus\refactor\main.py
+    python src\pay_calc_plus\main.py
