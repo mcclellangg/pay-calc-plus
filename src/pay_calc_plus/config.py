@@ -1,6 +1,24 @@
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = PROJECT_ROOT / "data"
+
+DB_CONFIG = {"prod": DATA_DIR / "payroll.db", "test": DATA_DIR / "test_payroll.db"}
+
+SQL_COMMANDS = {
+    "create_paychecks_table": """CREATE TABLE paychecks (
+        date text,
+        employee text,
+        exemptions integer,
+        gross_pay integer,
+        federal integer,
+        social integer,
+        medicare integer,
+        state integer,
+        net_deduct integer,
+        net_pay integer
+    )"""
+}
 
 
 TITLE = "Pay-Calc+"
