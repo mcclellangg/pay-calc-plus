@@ -1,3 +1,8 @@
+from pathlib import Path
+
+# PROJECT_ROOT = Path(__file__).resolve().parents[3] # NOTE: Change to 2 after refactor
+
+
 TITLE = "Pay-Calc+"
 GEOMETRY = "750x450+250+250"
 

@@ -133,4 +133,9 @@ class MainWindow:
         self.tree.insert(parent="", index="end", text=paycheck.pay_date, values=data)
 
     def run(self):
-        self.root.mainloop()
+        try:
+            self.root.mainloop()
+        except Exception as e:
+            print(f"ERROR: {e}")
+            print("Closing db ...")
+            self.coordinator.close_db()
