@@ -56,6 +56,13 @@ class TestPaycheck:
         print(d)
         assert sample_paycheck_data["gross_pay"] == d["gross_pay"]
 
+    def test_paycheck_to_tree_format(self, sample_paycheck_data):
+        paycheck = Paycheck(**sample_paycheck_data)
+        paycheck.execute_calculations()
+        tree_format = paycheck.to_tree_format()
+        expected_result = ["John Doe", 2, 900, 75.0, 55.8, 13.05, 41.0, 184.85, 715.15]
+        assert tree_format == expected_result
+
 
 if __name__ == "__main__":
     # Run the tests

@@ -2,11 +2,12 @@
 Main UI window.
 """
 
-from datetime import date
+from datetime import datetime
 import tkinter as tk
 from tkinter import ttk
 from pay_calc_plus.refactor.config import GEOMETRY, TITLE, TREEVIEW, WIDGETS
 from pay_calc_plus.refactor.payroll_models import Paycheck
+from pay_calc_plus.refactor.coordinator import PayrollCoordinator
 
 
 class MainWindow:
@@ -22,11 +23,17 @@ class MainWindow:
         self.widgets = {}
         self.root = tk.Tk()
         self.tree = self.load_tree_view()
+        self.coordinator = PayrollCoordinator()
         self.setup()
 
     def create_paycheck(self):
+        """
+        Store paycheck in coordinator. Update tree display with most recent paycheck.
+        """
         paycheck_data = self.convert_entry(self.get_entry_values())
-        return Paycheck(**paycheck_data)
+        paycheck = Paycheck(**paycheck_data)
+        self.coordinator.add_record(paycheck)
+        self.add_paycheck_to_tree_display(paycheck)
 
     def get_entry_values(self):
         """Retrieve key and value pairs for all entry widgets."""
@@ -46,7 +53,7 @@ class MainWindow:
             "employee_name": "",
             "exemptions": 0,
             "gross_pay": 0.0,
-            "pay_date": date(2024, 1, 15),  # NOTE: PLACEHOLDER VALUE
+            "pay_date": "{:%m/%d/%Y}".format(datetime.now()),
         }
         try:
             paycheck_data["exemptions"] = int(entry["exemptions_entry"])
@@ -116,11 +123,14 @@ class MainWindow:
         self.tree = tree
         self.tree.pack()
 
-    def update_tree_display(self):
+        return self.tree
+
+    def add_paycheck_to_tree_display(self, paycheck: Paycheck):
         """
-        Add paycheck record to tree display.
+        Add paycheck record to tree display. Does not maintain a history of paychecks.
         """
-        pass
+        data = paycheck.to_tree_format()
+        self.tree.insert(parent="", index="end", text=paycheck.pay_date, values=data)
 
     def run(self):
         self.root.mainloop()

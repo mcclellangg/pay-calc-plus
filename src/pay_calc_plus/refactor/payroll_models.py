@@ -10,6 +10,7 @@ from pay_calc_plus.refactor.calculations import (
 )
 from dataclasses import asdict, astuple, dataclass, field
 from datetime import datetime
+from typing import Any, List
 
 MEDICARE_PERCENTAGE = 0.0145
 SOCIAL_PERCENTAGE = 0.062
@@ -74,3 +75,23 @@ class Paycheck:
         {'deductions': {'federal': 75.0, 'state': 41.0, 'social': 55.8, 'medicare': 13.05}, 'employee_name': 'John Doe', 'exemptions': 2, 'gross_pay': 900.0, 'net_pay': 715.15, 'pay_date': datetime.date(2024, 1, 15)}
         """
         return asdict(self)
+
+    def to_tree_format(self) -> List[Any]:
+        """
+        Return a list in the order expected by TreeView columns:
+
+        ["name", "exemptions", "gross", "fed", "social", "medicare", "state", "net", "net_pay"]
+
+        NOTE: ideally this would come from CONFIG (since Tree cols are there), however I currently never expect these to change. Additionally type hints would indicate that list values would all be of expected type.
+        """
+        return [
+            self.employee_name,
+            self.exemptions,
+            self.gross_pay,
+            self.deductions.federal,
+            self.deductions.social,
+            self.deductions.medicare,
+            self.deductions.state,
+            self.deductions.total,
+            self.net_pay,
+        ]
