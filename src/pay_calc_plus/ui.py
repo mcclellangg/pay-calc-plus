@@ -71,7 +71,10 @@ class MainWindow:
 
     def load_widgets(self):
         """
-        Load widgets for parent 'self.root'.
+        Load widgets for parent 'self.root'. Widgets instances accessible via self.widgets {
+            "widget_name": tk.widgetInstance,
+            "name_label" : tk.Label
+        }
         """
         widget_types = {
             "label": tk.Label,
