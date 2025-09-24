@@ -4,30 +4,23 @@ Tests for
 """
 
 import pytest
-from datetime import date
 import tkinter as tk
 from tkinter import ttk
 from pay_calc_plus.ui import MainWindow
-from pay_calc_plus.payroll_models import Paycheck
 
 
 class TestMainWindow:
-    """Tests for MainWindow class."""
-
-    @pytest.fixture
-    def sample_paycheck_data(self):
-        return {
-            # "deductions": "a bad value",
-            "employee_name": "John Doe",
-            "exemptions": 2,
-            "gross_pay": 900.0,
-            "net_pay": None,
-            "pay_date": date(2024, 1, 15),
-        }
+    """
+    Tests for MainWindow class.
+    """
 
     @pytest.fixture
     def main_window(self):
-        """Create a MainWindow instance for testing."""
+        """
+        Create a MainWindow instance for testing.
+
+        NOTE: scope is not set to class so that functionalities are tested independently.
+        """
         window = MainWindow()
         yield window
         # Cleanup: destroy the tkinter window after test
