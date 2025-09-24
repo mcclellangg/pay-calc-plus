@@ -25,45 +25,8 @@ class MainWindow:
         self.tree = self.load_tree_view()
         self.coordinator = PayrollCoordinator()
         self.setup()
-
-    def create_paycheck(self):
-        """
-        Store paycheck in coordinator. Update tree display with most recent paycheck.
-        """
-        paycheck_data = self.convert_entry(self.get_entry_values())
-        paycheck = Paycheck(**paycheck_data)
-        self.coordinator.add_record(paycheck)
-        self.add_paycheck_to_tree_display(paycheck)
-
-    def get_entry_values(self):
-        """Retrieve key and value pairs for all entry widgets."""
-        entry_name_to_value = {}
-
-        for widget_name in self.widgets.keys():
-            if "entry" in widget_name:
-                entry_name_to_value[widget_name] = self.widgets[widget_name].get()
-
-        return entry_name_to_value
-
-    def convert_entry(self, entry: dict) -> dict:
-        """
-        Create a dict of expected types to create Paycheck object from user input.
-        """
-        paycheck_data = {
-            "employee_name": "",
-            "exemptions": 0,
-            "gross_pay": 0.0,
-            "pay_date": "{:%m/%d/%Y}".format(datetime.now()),
-        }
-        try:
-            paycheck_data["exemptions"] = int(entry["exemptions_entry"])
-            paycheck_data["gross_pay"] = float(entry["gross_entry"])
-            paycheck_data["employee_name"] = entry["name_entry"]
-        except KeyError as e:
-            print(f"Key error during entry conversion: {e}")
-
-        return paycheck_data
-
+    
+    # SETUP
     def setup(self):
         self.root.title(self.settings["title"])
         self.root.geometry(self.settings["geometry"])
@@ -128,6 +91,48 @@ class MainWindow:
 
         return self.tree
 
+    # COORDINATOR
+    def create_paycheck(self):
+        """
+        Store paycheck in coordinator. Update tree display with most recent paycheck.
+        """
+        paycheck_data = self.convert_entry(self.get_entry_values())
+        paycheck = Paycheck(**paycheck_data)
+        self.coordinator.add_record(paycheck)
+        self.add_paycheck_to_tree_display(paycheck)
+
+    # ENTRY/LABEL
+    def get_entry_values(self):
+        """Retrieve key and value pairs for all entry widgets."""
+        entry_name_to_value = {}
+
+        for widget_name in self.widgets.keys():
+            if "entry" in widget_name:
+                entry_name_to_value[widget_name] = self.widgets[widget_name].get()
+
+        return entry_name_to_value
+
+    def convert_entry(self, entry: dict) -> dict:
+        """
+        Create a dict of expected types to create Paycheck object from user input.
+        """
+        paycheck_data = {
+            "employee_name": "",
+            "exemptions": 0,
+            "gross_pay": 0.0,
+            "pay_date": "{:%m/%d/%Y}".format(datetime.now()),
+        }
+        try:
+            paycheck_data["exemptions"] = int(entry["exemptions_entry"])
+            paycheck_data["gross_pay"] = float(entry["gross_entry"])
+            paycheck_data["employee_name"] = entry["name_entry"]
+        except KeyError as e:
+            print(f"Key error during entry conversion: {e}")
+
+        return paycheck_data
+
+
+    # TREEVIEW
     def add_paycheck_to_tree_display(self, paycheck: Paycheck):
         """
         Add paycheck record to tree display. Does not maintain a history of paychecks.
@@ -135,6 +140,7 @@ class MainWindow:
         data = paycheck.to_tree_format()
         self.tree.insert(parent="", index="end", text=paycheck.pay_date, values=data)
 
+    # MAIN
     def run(self):
         try:
             self.root.mainloop()
