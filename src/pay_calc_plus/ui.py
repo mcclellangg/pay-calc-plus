@@ -1,13 +1,87 @@
 """
-Main UI window.
+UI components
+- MainWindow
+- ButtonFrame
 """
 
 from datetime import datetime
 import tkinter as tk
 from tkinter import ttk
-from pay_calc_plus.config import GEOMETRY, TITLE, TREEVIEW, WIDGETS
+from pay_calc_plus.config import BUTTON_FRAME, GEOMETRY, TITLE, TREEVIEW, WIDGETS
 from pay_calc_plus.payroll_models import Paycheck
 from pay_calc_plus.coordinator import PayrollCoordinator
+
+
+class ButtonFrame:
+    def __init__(self, parent):
+        self.buttons = {}
+        self.commands = {
+            "add_all": self.add_all_entries,
+            "clear_all": self.clear_all_entries,
+            "display_records": self.display_records,
+        }
+        self.frame = tk.Frame(parent)
+        self.settings = BUTTON_FRAME
+        self.setup()
+
+    def setup(self):
+        """
+        Load frame to parent window, call load_buttons.
+        """
+        try:
+            self.frame.grid(**self.settings["coordinates"])
+        except KeyError as e:
+            print(f"ERROR: {e}")
+
+        self.load_buttons()
+
+    def load_buttons(self):
+        """
+        Load buttons from config.
+        Button instances accessible via self.buttons["button_name"]
+        """
+        for name, button_config in self.settings["button_configs"].items():
+            params = button_config.get("params")
+
+            if "command" in params:
+                cmd_key = params["command"]
+                try:
+                    params["command"] = self.commands[cmd_key]
+                except KeyError as e:
+                    print(f"ERROR: Button command not found: {e}")
+                    # Fallback to a placeholder function
+                    params["command"] = lambda: print(
+                        f"Command '{cmd_key}' not implemented"
+                    )
+
+            # Create button
+            button = tk.Button(self.frame, **params)
+            self.buttons[name] = button
+            button.grid(**button_config["coordinates"])
+
+    # Command methods (placeholder implementations)
+    def add_all_entries(self):
+        """Add all current entries as records."""
+        print("Add all entries - placeholder")
+        # TODO: Implement logic to add all entries
+        # This might involve getting data from parent window's entry widgets
+        # and calling coordinator methods
+
+    def clear_all_entries(self):
+        """Clear all entry widgets."""
+        print("Clear all entries - placeholder")
+        # TODO: Implement logic to clear all entry widgets
+        # This might involve accessing parent window's widgets
+
+    def display_records(self):
+        """Display all records in the treeview."""
+        print("Display records - placeholder")
+        # if self.coordinator:
+        #     records = self.coordinator.get_all_records()
+        #     print(f"Found {len(records)} records")
+        #     # TODO: Implement logic to populate treeview with all records
+        # else:
+        #     print("No coordinator available")
 
 
 class MainWindow:
@@ -24,8 +98,9 @@ class MainWindow:
         self.root = tk.Tk()
         self.tree = self.load_tree_view()
         self.coordinator = PayrollCoordinator()
+        self.button_frame = ButtonFrame(parent=self.root)
         self.setup()
-    
+
     # SETUP
     def setup(self):
         self.root.title(self.settings["title"])
@@ -130,7 +205,6 @@ class MainWindow:
             print(f"Key error during entry conversion: {e}")
 
         return paycheck_data
-
 
     # TREEVIEW
     def add_paycheck_to_tree_display(self, paycheck: Paycheck):
