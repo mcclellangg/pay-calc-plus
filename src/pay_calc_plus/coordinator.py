@@ -77,8 +77,11 @@ class PayrollCoordinator:
             self.db_conn.rollback()
             return e
 
+    # CALLBACK HANDLER
     def add_current_records_to_db(self):
         """
+        Callback handler, method passed from ButtonFrame->MainWindow->PayrollCoordinator.
+
         Add all records into db. Clear record cache when complete.
         """
         if not self.paycheck_records:
@@ -107,16 +110,23 @@ class PayrollCoordinator:
         return self.paycheck_records
 
     def clear_all_records(self):
+        """
+        Part of a callback sequence from ButtonFrame -> MainWindow (handle_btn_clear_all_entries).
+
+        Clears all paycheck_records
+        """
         self.paycheck_records.clear()
-        print("Records cleared successfully.")
+        print(
+            "Records cleared successfully - coordinator"
+        )  # BUG: print this once (see handler)
 
     def report_records_in_error(self):
         """Display records that were not written to db."""
         if self.records_in_error:
-            print("The following records were in error.")
+            print("The following records were in error")
             for p in self.records_in_error:
                 print(p)
             return self.records_in_error
         else:
-            print("No records in error.")
+            print("No records in error")
             return []

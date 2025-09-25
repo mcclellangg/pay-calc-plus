@@ -61,17 +61,20 @@ class ButtonFrame:
             self.buttons[name] = button
             button.grid(**button_config["coordinates"])
 
-    # Command methods (placeholder implementations)
+    # CMD METHODS
     def add_all_entries(self):
-        """Add all current entries as records."""
-        print("Add all entries - placeholder")
-        self.callback_handler.add_current_records_to_db()
+        """
+        Callback method via MainWindow -> PayrollCoordinator
+
+        Adds all current entries (in payroll_records) as sql_records.
+        """
+        print("Calling parent to add all entries")
+        self.callback_handler.handle_btn_add_all_entries()
 
     def clear_all_entries(self):
         """Clear all entry widgets."""
-        print("Clear all entries - placeholder")
-        # TODO: Implement logic to clear all entry widgets
-        # This might involve accessing parent window's widgets
+        print("Calling parent to clear all entries")
+        self.callback_handler.handle_btn_clear_all_entries()
 
     def display_records(self):
         """Display all records in the treeview."""
@@ -98,9 +101,7 @@ class MainWindow:
         self.root = tk.Tk()
         self.tree = self.load_tree_view()
         self.coordinator = PayrollCoordinator()
-        self.button_frame = ButtonFrame(
-            parent=self.root, callback_handler=self.coordinator
-        )
+        self.button_frame = ButtonFrame(parent=self.root, callback_handler=self)
         self.setup()
 
     # SETUP
@@ -168,6 +169,26 @@ class MainWindow:
 
         return self.tree
 
+    # CALLBACK HANDLERS
+    def handle_btn_add_all_entries(self):
+        """
+        Callback from ButtonFrame tp PayrollCoordinator.
+
+        BUG: Does not update tree display.
+        """
+        self.coordinator.add_current_records_to_db()
+
+    def handle_btn_clear_all_entries(self):
+        """Callback from ButtonFrame to clear PayrollCoordinator records and tree display."""
+        try:
+            self.coordinator.clear_all_records()
+            self.clear_tree_display()
+            print(
+                "Records cleared successfully - handler"
+            )  # BUG: print this in one place
+        except Exception as e:
+            print(f"ERROR with clear entries btn: {e}")
+
     # COORDINATOR
     def create_paycheck(self):
         """
@@ -215,6 +236,9 @@ class MainWindow:
         """
         data = paycheck.to_tree_format()
         self.tree.insert(parent="", index="end", text=paycheck.pay_date, values=data)
+
+    def clear_tree_display(self):
+        self.tree.delete(*self.tree.get_children())
 
     # MAIN
     def run(self):
