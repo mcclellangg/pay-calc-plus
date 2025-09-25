@@ -10,14 +10,15 @@ SQL_COMMANDS = {
         date text,
         employee text,
         exemptions integer,
-        gross_pay integer,
-        federal integer,
-        social integer,
-        medicare integer,
-        state integer,
-        net_deduct integer,
-        net_pay integer
-    )"""
+        gross_pay float,
+        federal float,
+        social float,
+        medicare float,
+        state float,
+        net_deduct float,
+        net_pay float
+    )""",
+    "insert_paycheck": """INSERT INTO paychecks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
 }
 
 

@@ -3,8 +3,8 @@ set shell := ["powershell.exe", "-c"]
 
 # Run black on src py files: venv must be activated!
 format:
-    black src\pay_calc_plus\*.py
-    black tests\*.py
+    black src\pay_calc_plus
+    black tests
 
 # Run dev
 dev:

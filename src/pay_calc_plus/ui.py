@@ -13,14 +13,16 @@ from pay_calc_plus.coordinator import PayrollCoordinator
 
 
 class ButtonFrame:
-    def __init__(self, parent):
+    def __init__(self, parent, callback_handler):
         self.buttons = {}
+        self.callback_handler = callback_handler
         self.commands = {
             "add_all": self.add_all_entries,
             "clear_all": self.clear_all_entries,
             "display_records": self.display_records,
         }
         self.frame = tk.Frame(parent)
+        self.parent = parent
         self.settings = BUTTON_FRAME
         self.setup()
 
@@ -63,9 +65,7 @@ class ButtonFrame:
     def add_all_entries(self):
         """Add all current entries as records."""
         print("Add all entries - placeholder")
-        # TODO: Implement logic to add all entries
-        # This might involve getting data from parent window's entry widgets
-        # and calling coordinator methods
+        self.callback_handler.add_current_records_to_db()
 
     def clear_all_entries(self):
         """Clear all entry widgets."""
@@ -98,7 +98,9 @@ class MainWindow:
         self.root = tk.Tk()
         self.tree = self.load_tree_view()
         self.coordinator = PayrollCoordinator()
-        self.button_frame = ButtonFrame(parent=self.root)
+        self.button_frame = ButtonFrame(
+            parent=self.root, callback_handler=self.coordinator
+        )
         self.setup()
 
     # SETUP

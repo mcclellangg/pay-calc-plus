@@ -62,6 +62,7 @@ class Paycheck:
         self.calculate_deductions()
         self.calculate_net_pay()
 
+    # CONVERSION METHODS
     def to_tuple(self):
         """
         tuple format:
@@ -75,6 +76,21 @@ class Paycheck:
         {'deductions': {'federal': 75.0, 'state': 41.0, 'social': 55.8, 'medicare': 13.05}, 'employee_name': 'John Doe', 'exemptions': 2, 'gross_pay': 900.0, 'net_pay': 715.15, 'pay_date': datetime.date(2024, 1, 15)}
         """
         return asdict(self)
+
+    def to_sql_record(self):
+        """Convert to format expected by sqlite db."""
+        return (
+            self.pay_date,
+            self.employee_name,
+            self.exemptions,
+            self.gross_pay,
+            self.deductions.federal,
+            self.deductions.social,
+            self.deductions.medicare,
+            self.deductions.state,
+            self.deductions.total,
+            self.net_pay,
+        )
 
     def to_tree_format(self) -> List[Any]:
         """

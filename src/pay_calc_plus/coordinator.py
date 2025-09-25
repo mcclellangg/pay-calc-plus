@@ -14,8 +14,10 @@ class PayrollCoordinator:
 
     def __init__(self, connection_string: str = DB_CONFIG["prod"]):
         self.paycheck_records = []
+        self.records_in_error = []
         self.db_conn = self.setup_db_connection(connection_string=connection_string)
 
+    # SETUP
     def setup_db_connection(self, connection_string: str):
         """
         Connect to db, if no db exists create one.
@@ -38,6 +40,7 @@ class PayrollCoordinator:
         db_conn.commit()
         return db_conn
 
+    # DB UTILS
     def query_db(self, cmd: str):
         """
         Execute given command on db.
@@ -52,11 +55,68 @@ class PayrollCoordinator:
         return result
 
     def close_db(self):
+        """Close database connection."""
+        self.report_records_in_error()
         self.db_conn.close()
         return "db connection closed."
 
+    def add_single_record_to_db(self, paycheck: Paycheck):
+        """
+        Add record to db, rollback if unsuccessful.
+        """
+        c = self.db_conn.cursor()
+        try:
+            paycheck_data = paycheck.to_sql_record()
+            c.execute(SQL_COMMANDS["insert_paycheck"], paycheck_data)
+            self.db_conn.commit()
+            print(
+                f"Successfully added paycheck for {paycheck.employee_name} to database."
+            )
+        except Exception as e:
+            print(f"ERROR adding paycheck to database: {e}")
+            self.db_conn.rollback()
+            return e
+
+    def add_current_records_to_db(self):
+        """
+        Add all records into db. Clear record cache when complete.
+        """
+        if not self.paycheck_records:
+            print("paycheck_records empty, nothing to add to db.")
+            return self.paycheck_records
+        else:
+            print("Adding records ...")
+            for p in self.paycheck_records:
+                try:
+                    print(f"Adding paycheck: {p}")
+                    self.add_single_record_to_db(paycheck=p)
+                except Exception as e:
+                    print(f"ERROR adding paycheck: {p}: {e}")
+                    self.records_in_error.append(p)
+                    return e
+            # BUG: unsuccessful addition will be cleared.
+            self.clear_all_records()
+
+    # RECORD HANDLERS
     def add_record(self, paycheck: Paycheck):
+        """Updates list with Paycheck object."""
         self.paycheck_records.append(paycheck)
 
     def get_all_records(self):
+        """Returns a list of Paycheck objects."""
         return self.paycheck_records
+
+    def clear_all_records(self):
+        self.paycheck_records.clear()
+        print("Records cleared successfully.")
+
+    def report_records_in_error(self):
+        """Display records that were not written to db."""
+        if self.records_in_error:
+            print("The following records were in error.")
+            for p in self.records_in_error:
+                print(p)
+            return self.records_in_error
+        else:
+            print("No records in error.")
+            return []

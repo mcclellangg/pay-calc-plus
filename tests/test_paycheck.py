@@ -60,8 +60,47 @@ class TestPaycheck:
         paycheck = Paycheck(**sample_paycheck_data)
         paycheck.execute_calculations()
         tree_format = paycheck.to_tree_format()
-        expected_result = ["John Doe", 2, 900, 75.0, 55.8, 13.05, 41.0, 184.85, 715.15]
+        expected_result = [
+            "John Doe",
+            2,
+            900.0,
+            75.0,
+            55.8,
+            13.05,
+            41.0,
+            184.85,
+            715.15,
+        ]
         assert tree_format == expected_result
+
+    def test_paycheck_to_sql_record(self, sample_paycheck_data):
+        paycheck = Paycheck(**sample_paycheck_data)
+        paycheck.execute_calculations()
+        data = paycheck.to_sql_record()
+
+        # Expected types based on database schema
+        expected_types = [
+            date,  # date (text) # NOTE: sqlite supports date objects to TEXT type column
+            str,  # employee (text)
+            int,  # exemptions (integer)
+            float,  # gross_pay (float) - handles dollars and cents naturally
+            float,  # federal (float)
+            float,  # social (float)
+            float,  # medicare (float)
+            float,  # state (float)
+            float,  # net_deduct (float)
+            float,  # net_pay (float)
+        ]
+
+        assert len(data) == len(
+            expected_types
+        ), f"Expected {len(expected_types)} fields, got {len(data)}"
+
+        for i, (value, expected_type) in enumerate(zip(data, expected_types)):
+            assert isinstance(
+                value, expected_type
+            ), f"Field {i} should be {expected_type.__name__}, got {type(value).__name__} ({value})"
+        print(f"All type validations passed: {data}")
 
 
 if __name__ == "__main__":
