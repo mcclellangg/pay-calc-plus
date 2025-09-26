@@ -1,12 +1,114 @@
 """
 Tests for
 - MainWindow
+- RecordWindow
 """
 
 import pytest
 import tkinter as tk
-from tkinter import ttk
-from pay_calc_plus.ui import MainWindow
+from tkinter import Toplevel, ttk
+from pay_calc_plus.ui import ButtonFrame, MainWindow, RecordWindow
+
+
+class TestButtonFrame:
+    """
+    Tests for ButtonFrame class focusing on logic and configuration.
+    """
+
+    @pytest.fixture
+    def parent_window(self):
+        """Create a parent window."""
+        window = tk.Tk()
+        yield window
+        window.destroy()
+
+    @pytest.fixture
+    def simple_callback_handler(self):
+        """Create a simple callback handler for testing."""
+
+        class TestHandler:
+            def handle_btn_add_all_entries(self):
+                pass
+
+            def handle_btn_clear_all_entries(self):
+                pass
+
+            def handle_btn_display_records(self):
+                pass
+
+        return TestHandler()
+
+    @pytest.fixture
+    def button_frame(self, parent_window, simple_callback_handler):
+        """Create ButtonFrame instance for testing."""
+        frame = ButtonFrame(parent_window, simple_callback_handler)
+        yield frame
+
+    def test_buttons_loaded_from_config(self, button_frame):
+        """Test that expected buttons are created from config."""
+        # Verify buttons dictionary is populated
+        assert len(button_frame.buttons) > 0
+
+        # Check expected buttons exist (based on typical config)
+        expected_buttons = ["add", "clear", "display"]
+
+        for button_name in expected_buttons:
+            assert (
+                button_name in button_frame.buttons
+            ), f"Button {button_name} not found"
+            assert isinstance(button_frame.buttons[button_name], tk.Button)
+
+    def test_command_mapping_logic(self, button_frame):
+        """Test that commands dictionary maps to correct methods."""
+        expected_commands = {
+            "add_all": button_frame.add_all_entries,
+            "clear_all": button_frame.clear_all_entries,
+            "display_records": button_frame.display_records,
+        }
+
+        for cmd_key, expected_method in expected_commands.items():
+            assert cmd_key in button_frame.commands
+            assert button_frame.commands[cmd_key] == expected_method
+
+    def test_frame_setup(self, button_frame):
+        """Test that frame is properly configured."""
+        assert button_frame.frame is not None
+        assert isinstance(button_frame.frame, tk.Frame)
+        assert button_frame.parent is not None
+        assert button_frame.callback_handler is not None
+
+
+class TestRecordWindow:
+    """
+    Tests for RecordWindow class focusing on current implementation.
+    """
+
+    @pytest.fixture
+    def record_window(self):
+        """Create RecordWindow instance for testing."""
+        # Create root window first (required for Toplevel)
+        root = tk.Tk()
+        window = RecordWindow()
+        yield window
+        # Cleanup
+        window.top.destroy()
+        root.destroy()
+
+    def test_toplevel_window_created(self, record_window):
+        """Test that Toplevel window is created."""
+        assert record_window.top is not None
+        assert isinstance(record_window.top, Toplevel)
+
+    def test_settings_configuration(self, record_window):
+        """Test that settings are loaded correctly from config."""
+        assert "title" in record_window.settings
+        assert "geometry" in record_window.settings
+        assert "treeview" in record_window.settings
+
+        # Verify settings have expected types
+        assert isinstance(record_window.settings["title"], str)
+        assert isinstance(record_window.settings["geometry"], str)
+        assert isinstance(record_window.settings["treeview"], dict)
 
 
 class TestMainWindow:
@@ -103,3 +205,66 @@ class TestMainWindow:
         tree_parent = main_window.tree.master
         assert isinstance(tree_parent, tk.LabelFrame)
         assert tree_parent["text"] == "Paychecks"
+
+    # INTEGRATION TESTS
+    def test_button_frame_with_main_window(self, main_window):
+        """Test ButtonFrame integration with MainWindow."""
+        # Verify ButtonFrame is created and connected to MainWindow
+        assert main_window.button_frame is not None
+        assert main_window.button_frame.callback_handler == main_window
+
+        # Verify buttons exist and are configured
+        button_frame = main_window.button_frame
+        assert len(button_frame.buttons) > 0
+
+        # Test that callback handler methods exist on MainWindow
+        assert hasattr(main_window, "handle_btn_add_all_entries")
+        assert hasattr(main_window, "handle_btn_clear_all_entries")
+        assert hasattr(main_window, "handle_btn_display_records")
+
+        # Verify methods are callable
+        assert callable(main_window.handle_btn_add_all_entries)
+        assert callable(main_window.handle_btn_clear_all_entries)
+        assert callable(main_window.handle_btn_display_records)
+
+    def test_callback_handler_delegation(self, main_window):
+        """Test that ButtonFrame methods properly call MainWindow handlers."""
+        button_frame = main_window.button_frame
+
+        # Test add_all_entries delegation
+        try:
+            button_frame.add_all_entries()
+            # If no exception, delegation works (actual functionality tested elsewhere)
+        except Exception as e:
+            # Allow expected exceptions from coordinator/db operations
+            if "coordinator" not in str(e).lower():
+                pytest.fail(f"Unexpected error in add_all_entries delegation: {e}")
+
+        # Test clear_all_entries delegation
+        try:
+            button_frame.clear_all_entries()
+        except Exception as e:
+            if "coordinator" not in str(e).lower():
+                pytest.fail(f"Unexpected error in clear_all_entries delegation: {e}")
+
+        # Test display_records delegation
+        try:
+            button_frame.display_records()
+        except Exception as e:
+            if "coordinator" not in str(e).lower():
+                pytest.fail(f"Unexpected error in display_records delegation: {e}")
+
+    def test_record_window_opening(self, main_window):
+        """Test that MainWindow can create RecordWindow."""
+        # Initially no record window
+        assert main_window.record_window is None
+
+        # Call handler to create record window
+        main_window.handle_btn_display_records()
+
+        # Verify record window was created
+        assert main_window.record_window is not None
+
+        # Cleanup - destroy the record window
+        if main_window.record_window:
+            main_window.record_window.top.destroy()

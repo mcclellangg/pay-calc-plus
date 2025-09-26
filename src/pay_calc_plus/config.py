@@ -23,7 +23,7 @@ SQL_COMMANDS = {
 
 
 TITLE = "Pay-Calc+"
-GEOMETRY = "750x450+250+250"
+GEOMETRY = {"main_window": "750x450+250+250", "record_window": "750x450+850+250"}
 
 BUTTON_FRAME = {
     "coordinates": {
@@ -34,12 +34,12 @@ BUTTON_FRAME = {
         "columnspan": 2,
     },
     "button_configs": {
-        "add_button": {
+        "add": {
             "type": "button",
             "coordinates": {"row": 0, "column": 0, "padx": (0, 10), "pady": (0, 0)},
             "params": {"text": "Add All Entries", "command": "add_all", "width": 20},
         },
-        "clear_button": {
+        "clear": {
             "type": "button",
             "coordinates": {"row": 0, "column": 1, "padx": (0, 10), "pady": (0, 0)},
             "params": {
@@ -48,7 +48,7 @@ BUTTON_FRAME = {
                 "width": 20,
             },
         },
-        "display_button": {
+        "display": {
             "type": "button",
             "coordinates": {"row": 0, "column": 2, "padx": (0, 0), "pady": (0, 0)},
             "params": {

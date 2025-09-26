@@ -6,7 +6,7 @@ UI components
 
 from datetime import datetime
 import tkinter as tk
-from tkinter import ttk
+from tkinter import Toplevel, ttk
 from pay_calc_plus.config import BUTTON_FRAME, GEOMETRY, TITLE, TREEVIEW, WIDGETS
 from pay_calc_plus.payroll_models import Paycheck
 from pay_calc_plus.coordinator import PayrollCoordinator
@@ -78,13 +78,29 @@ class ButtonFrame:
 
     def display_records(self):
         """Display all records in the treeview."""
-        print("Display records - placeholder")
-        # if self.coordinator:
-        #     records = self.coordinator.get_all_records()
-        #     print(f"Found {len(records)} records")
-        #     # TODO: Implement logic to populate treeview with all records
-        # else:
-        #     print("No coordinator available")
+        print("Calling parent to display records")
+        self.callback_handler.handle_btn_display_records()
+
+
+class RecordWindow:
+    """
+    Top level widget used to display all records from the db.
+
+    Creates a tree display with same config from MainWindow.
+    """
+
+    def __init__(self):
+        self.settings = {
+            "title": TITLE,
+            "geometry": GEOMETRY["record_window"],
+            "treeview": TREEVIEW,
+        }
+        self.top = Toplevel()
+        self.setup()
+
+    def setup(self):
+        self.top.title = self.settings["title"]
+        self.top.geometry = self.settings["geometry"]
 
 
 class MainWindow:
@@ -92,7 +108,7 @@ class MainWindow:
         # Read data from config and run app
         self.settings = {
             "title": TITLE,
-            "geometry": GEOMETRY,
+            "geometry": GEOMETRY["main_window"],
             "treeview": TREEVIEW,
             "widgets": WIDGETS,
         }
@@ -100,6 +116,9 @@ class MainWindow:
         self.widgets = {}
         self.root = tk.Tk()
         self.tree = self.load_tree_view()
+        self.record_window = (
+            None  # NOTE: currently not able to track number of instances open
+        )
         self.coordinator = PayrollCoordinator()
         self.button_frame = ButtonFrame(parent=self.root, callback_handler=self)
         self.setup()
@@ -188,6 +207,16 @@ class MainWindow:
             )  # BUG: print this in one place
         except Exception as e:
             print(f"ERROR with clear entries btn: {e}")
+
+    def handle_btn_display_records(self):
+        """
+        Callback from ButtonFrame to open new Toplevel widget RecordWindow.
+
+        Only one RecordWindow should be open at a time.
+        """
+        # BUG: You can open multiple instances of RecordWindow, ideally there would only be one at a time.
+
+        self.record_window = RecordWindow()
 
     # COORDINATOR
     def create_paycheck(self):
