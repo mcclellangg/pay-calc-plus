@@ -19,6 +19,7 @@ SQL_COMMANDS = {
         net_pay float
     )""",
     "insert_paycheck": """INSERT INTO paychecks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+    "get_all_paychecks": """SELECT * FROM paychecks;""",
 }
 
 

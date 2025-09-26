@@ -89,20 +89,21 @@ class RecordWindow:
     Creates a tree display with same config from MainWindow.
     """
 
-    def __init__(self):
+    def __init__(self, records: list = []):
         self.settings = {
             "title": TITLE,
             "geometry": GEOMETRY["record_window"],
             "treeview": TREEVIEW,
         }
+        self.records = records
         self.top = Toplevel()
         self.table = None
         self.setup()
 
     def setup(self):
         self.top.title = self.settings["title"]
-        self.top.geometry = self.settings["geometry"]
-        self.table = TreeTable(parent=self.top)
+        self.top.geometry(self.settings["geometry"])
+        self.table = TreeTable(parent=self.top, records=self.records)
 
 
 class TreeTable:
@@ -112,21 +113,24 @@ class TreeTable:
     Contains a LabelFrame and Treeview widget.
     """
 
-    def __init__(self, parent, callback_handler=None):
+    def __init__(self, parent, records: list, callback_handler=None):
         self.call_back_handler = callback_handler
         self.config = TREEVIEW
         self.label_frame = None  # should this be None on init?
         self.parent = parent
+        self.records = records
         self.tree_table = None  # should this be None on init?
         self.setup()
 
     def setup(self):
         print("Setting up TreeTable ...")
         self.label_frame = tk.LabelFrame(self.parent, text="TABLE")
-        self.label_frame.pack(fill="x")  # NOTE: why fill x?
         self.tree_table = ttk.Treeview(self.label_frame)
         table_config = self.get_config()
         self.load_table_cols(config=table_config)
+        self.load_records()
+        self.label_frame.pack(fill="x")
+        self.tree_table.pack(fill="x")  # Fit width of frame (horizontal fill)
         print("TreeTable setup complete")
 
     def get_config(self) -> dict:
@@ -162,7 +166,20 @@ class TreeTable:
             if heading_params:
                 self.tree_table.heading(**heading_params)
 
-        self.tree_table.pack()
+    def load_records(self):
+        """Update table with provided records.
+
+        NOTE: record[0] is the date value and is set via text
+        """
+        if not self.records:
+            print("No records to load")
+            return None
+        print(f"Loading records to table ...")
+        for record in self.records:
+            date = record[0]
+            values = record[1:]
+            self.tree_table.insert(parent="", index="end", values=(values), text=date)
+        print("Records loaded successfully")
 
 
 class MainWindow:
@@ -278,7 +295,8 @@ class MainWindow:
         """
         # BUG: You can open multiple instances of RecordWindow, ideally there would only be one at a time.
 
-        self.record_window = RecordWindow()
+        payroll_records = self.coordinator.get_all_records_from_db()
+        self.record_window = RecordWindow(records=payroll_records)
 
     # COORDINATOR
     def create_paycheck(self):

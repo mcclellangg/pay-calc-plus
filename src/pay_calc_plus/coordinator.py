@@ -44,6 +44,7 @@ class PayrollCoordinator:
     def query_db(self, cmd: str):
         """
         Execute given command on db.
+        utility method to directly test interactions with sqlite db.
         """
         c = self.db_conn.cursor()
         try:
@@ -76,6 +77,23 @@ class PayrollCoordinator:
             print(f"ERROR adding paycheck to database: {e}")
             self.db_conn.rollback()
             return e
+
+    def get_all_records_from_db(self) -> list[tuple]:
+        """
+        Select all paychecks from db and return list of tuple values.
+        Returns empty list if no records or on error.
+        """
+        query = SQL_COMMANDS["get_all_paychecks"]
+        c = self.db_conn.cursor()
+        print(f"Retrieving records with query: {query}")
+        try:
+            c.execute(query)
+            records = c.fetchall()  # Will this return empty list?
+            print(f"Records retrieved successfully")
+            return records
+        except Exception as e:
+            print(f"ERROR retrieving records: {e}")
+            return []
 
     # CALLBACK HANDLER
     def add_current_records_to_db(self):
