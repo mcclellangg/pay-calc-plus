@@ -96,11 +96,73 @@ class RecordWindow:
             "treeview": TREEVIEW,
         }
         self.top = Toplevel()
+        self.table = None
         self.setup()
 
     def setup(self):
         self.top.title = self.settings["title"]
         self.top.geometry = self.settings["geometry"]
+        self.table = TreeTable(parent=self.top)
+
+
+class TreeTable:
+    """
+    Treeview widget used as a table by MainWindow and RecordWindow to display Paychecks created by user and loaded from db.
+
+    Contains a LabelFrame and Treeview widget.
+    """
+
+    def __init__(self, parent, callback_handler=None):
+        self.call_back_handler = callback_handler
+        self.config = TREEVIEW
+        self.label_frame = None  # should this be None on init?
+        self.parent = parent
+        self.tree_table = None  # should this be None on init?
+        self.setup()
+
+    def setup(self):
+        print("Setting up TreeTable ...")
+        self.label_frame = tk.LabelFrame(self.parent, text="TABLE")
+        self.label_frame.pack(fill="x")  # NOTE: why fill x?
+        self.tree_table = ttk.Treeview(self.label_frame)
+        table_config = self.get_config()
+        self.load_table_cols(config=table_config)
+        print("TreeTable setup complete")
+
+    def get_config(self) -> dict:
+        """Copy config so unwanted cols can be filtered on load."""
+        try:
+            column_configs = self.config[
+                "record_display"
+            ].copy()  # DON'T alter config directly
+            return column_configs
+        except KeyError as e:
+            print(f"ERROR in parse_config: {e}")
+            return e
+
+    def load_table_cols(self, config: dict):
+        """
+        Remove phantom col name and update tree_table with cols.
+
+        NOTE: phantom col is filtered from names since it already exists in TreeView (by default) and does not need to be re-added.
+        """
+
+        PHANTOM_COL = "#0"
+        col_names = [name for name in config.keys()]
+        col_names.remove(PHANTOM_COL)
+
+        # Columns must be added before they are modified
+        self.tree_table["columns"] = col_names
+
+        for col, params in config.items():
+            col_params = params["column_params"]
+            heading_params = params["heading_params"]
+            if col_params:
+                self.tree_table.column(**col_params)
+            if heading_params:
+                self.tree_table.heading(**heading_params)
+
+        self.tree_table.pack()
 
 
 class MainWindow:
