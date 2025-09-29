@@ -98,6 +98,11 @@ WIDGETS = {
         "coordinates": {"row": 3, "column": 0, "padx": (60, 8), "pady": (0, 8)},
         "params": {"text": "Calculate", "command": "calculate", "width": 25},
     },
+    "clear_button": {
+        "type": "button",
+        "coordinates": {"row": 3, "column": 1, "padx": (60, 8), "pady": (0, 8)},
+        "params": {"text": "Clear", "command": "clear", "width": 25},
+    },
 }
 
 TREEVIEW = {

@@ -191,7 +191,10 @@ class MainWindow:
             "treeview": TREEVIEW,
             "widgets": WIDGETS,
         }
-        self.commands = {"calculate": self.create_paycheck}
+        self.commands = {
+            "calculate": self.create_paycheck,
+            "clear": self.clear_entry_fields,
+        }
         self.widgets = {}
         self.root = tk.Tk()
         self.tree = self.load_tree_view()
@@ -307,6 +310,21 @@ class MainWindow:
         paycheck = Paycheck(**paycheck_data)
         self.coordinator.add_record(paycheck)
         self.add_paycheck_to_tree_display(paycheck)
+
+    def clear_entry_fields(self):
+        """
+        Delete the value in all entry (input fields) widgets.
+        """
+        ENTRY_FIELD_NAMES = ["gross_entry", "exemptions_entry", "name_entry"]
+        # iter widgets
+        # if name is a field then clear it
+        for field in ENTRY_FIELD_NAMES:
+            try:
+                entry = self.widgets[field]
+                entry.delete(first=0, last="end")
+                print(f"Cleared entry field: {field}")
+            except KeyError as e:
+                print(f"ERROR when clearing fieldname: {field}: {e}")
 
     # ENTRY/LABEL
     def get_entry_values(self):

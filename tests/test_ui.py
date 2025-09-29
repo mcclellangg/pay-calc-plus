@@ -268,3 +268,28 @@ class TestMainWindow:
         # Cleanup - destroy the record window
         if main_window.record_window:
             main_window.record_window.top.destroy()
+
+    def test_entry_update_and_clear_btn(self, main_window):
+        """Test that the clear button updates entry field values to be blank."""
+        ENTRY_FIELD_NAMES = ["gross_entry", "exemptions_entry", "name_entry"]
+
+        sample_entry = {
+            "gross_entry": 1800,
+            "exemptions_entry": 2,
+            "name_entry": "Sue Snell",
+        }
+
+        # add values to the field
+        for field, value in sample_entry.items():
+            main_window.widgets[field].insert(index=0, string=value)
+
+        # assert they are expected, then clear them
+        # NOTE: entries are text/string values so type check is not needed since they are expected to be converted.
+        for field, expected_value in sample_entry.items():
+            assert main_window.widgets[field].get() == str(expected_value)
+
+        main_window.clear_entry_fields()
+
+        # assert that all fields have been cleared
+        for field in ENTRY_FIELD_NAMES:
+            assert main_window.widgets[field].get() == ""
