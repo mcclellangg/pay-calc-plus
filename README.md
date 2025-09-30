@@ -32,6 +32,8 @@ Assuming `uv`,`python`, and `just` are installed.
 2. `cd pay-calc-plus`
 3. Create a virtual environment `python -m venv .venv`
 4. Activate venv (Windows) `.\.venv\Scripts\Activate.ps1` (Linux) `source .venv/bin/activate`
-4. Run `uv sync` to update dependencies
-5. Run `uv pip install -e .` to install dependencies
-5. Run application `just run`
+5. Run `uv sync` to update dependencies
+6. Run `uv pip install -e .` to install dependencies
+7. Run application
+7a. `cd src`
+7b. `python -m pay_calc_plus.main`

@@ -5,7 +5,3 @@ set shell := ["powershell.exe", "-c"]
 format:
     black src\pay_calc_plus
     black tests
-
-# Run app
-run:
-    python src\pay_calc_plus\main.py
