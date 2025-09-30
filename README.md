@@ -35,5 +35,5 @@ Assuming `uv`,`python`, and `just` are installed.
 5. Run `uv sync` to update dependencies
 6. Run `uv pip install -e .` to install dependencies
 7. Run application
-7a. `cd src`
-7b. `python -m pay_calc_plus.main`
+    a. `cd src`
+    b. `python -m pay_calc_plus.main`
