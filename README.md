@@ -24,3 +24,14 @@ Limitations and issues:
 ## Demo
 ![main-screen-pic](https://raw.githubusercontent.com/mcclellangg/pay-calc-plus/dev/images/calc.png)
 ![records-screen-pic](https://raw.githubusercontent.com/mcclellangg/pay-calc-plus/dev/images/records.png)
+
+## Install
+Assuming `uv`,`python`, and `just` are installed.
+
+1. Clone this repo `git clone https://github.com/mcclellangg/pay-calc-plus.git`
+2. `cd pay-calc-plus`
+3. Create a virtual environment `python -m venv .venv`
+4. Activate venv (Windows) `.\.venv\Scripts\Activate.ps1` (Linux) `source .venv/bin/activate`
+4. Run `uv sync` to update dependencies
+5. Run `uv pip install -e .` to install dependencies
+5. Run application `just run`
