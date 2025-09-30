@@ -4,13 +4,7 @@ version = "0.1.0"
 description = "Desktop GUI app created with Python, Tkinter and SQLite to automate weekly payroll deductions based on tax documentation."
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "black>=25.1.0",
-    "pytest>=8.4.2",
-]
-
-[tool.setuptools]
-package-dir = {"" = "src"}
+authors = [{ name = "Grayson", email = "mcclellangg@gmail.com" }]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -24,5 +18,3 @@ dev = ["black>=25.1.0", "pytest>=8.4.2"]
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
-
-authors = [{ name = "Grayson", email = "mcclellangg@gmail.com" }]
