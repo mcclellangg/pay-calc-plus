@@ -1,4 +1,7 @@
-# db-commands.py
+"""
+Commands for interacting with sqlite database.
+"""
+
 import sqlite3
 
 # Initialize db and connection
@@ -61,6 +64,7 @@ def submit(record):
 
 
 def query():
+    print("Initiating query connection...")
     conn = sqlite3.connect("payroll.db")
     c = conn.cursor()
 

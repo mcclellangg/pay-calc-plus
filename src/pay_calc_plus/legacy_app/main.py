@@ -1,4 +1,6 @@
-# pay-calc.py
+"""
+Main program execution.
+"""
 
 import tkinter as tk
 from tkinter import Toplevel, ttk
@@ -13,6 +15,7 @@ root.title("Pay-Calc+")
 root.geometry("750x450+250+250")
 
 count = 0  # iid for paychecks in treeview UNIQUE
+
 
 # Command functions
 def create_paycheck():
@@ -110,7 +113,9 @@ tree_display["columns"] = (
     "Net Pay",
 )
 # Format the columns:
-tree_display.column("#0", width=70, minwidth=25, anchor="w")  # '#0' is the phantom column
+tree_display.column(
+    "#0", width=70, minwidth=25, anchor="w"
+)  # '#0' is the phantom column
 tree_display.column("Name", anchor="w", width=60)
 tree_display.column("Exemptions", anchor="center", width=80)
 tree_display.column("Gross Pay", anchor="w", width=60)
