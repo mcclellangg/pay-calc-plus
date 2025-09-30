@@ -63,8 +63,15 @@ ENV/
 env.bak/
 venv.bak/
 
-# Test folder, and files:
+# Database files
+!data/.gitkeep
+data/*.db
+data/*.sqlite
+data/*.sqlite3
 *.db
 
 # Settings
 .vscode
+
+# Captain's Log
+logbook.md
