@@ -35,6 +35,4 @@ Assuming `uv`,`python`, and `just` are installed.
 5. Run `uv sync` to update dependencies
 6. Run `uv pip install -e .` to perform editable install
 7. Run app `just run`
-    -  OR manually run application
-      1. `cd src`
-      2. `python -m pay_calc_plus.main`
+    -  OR manually execute run cmd `python -m pay_calc_plus.main`
