@@ -1,5 +1,5 @@
 """
-Imports and runs the new ui
+Main application.
 """
 
 from pay_calc_plus.ui import MainWindow

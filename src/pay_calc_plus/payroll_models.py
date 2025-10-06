@@ -1,7 +1,7 @@
 """
 Payroll models:
-- Paycheck
 - Deductions
+- Paycheck
 """
 
 from pay_calc_plus.calculations import (

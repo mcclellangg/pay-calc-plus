@@ -1,7 +1,9 @@
 """
-UI components
-- MainWindow
+UI components:
 - ButtonFrame
+- MainWindow
+- RecordWindow
+- TreeTable
 """
 
 from datetime import datetime
