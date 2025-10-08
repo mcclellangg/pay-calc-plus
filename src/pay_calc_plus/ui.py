@@ -99,7 +99,7 @@ class RecordWindow:
         }
         self.records = records
         self.top = Toplevel()
-        self.table = None
+        self.table: TreeTable | None = None
         self.setup()
 
     def setup(self):
@@ -116,12 +116,13 @@ class TreeTable:
     """
 
     def __init__(self, parent, records: list, callback_handler=None):
-        self.call_back_handler = callback_handler
+        self.callback_handler = callback_handler
         self.config = TREEVIEW
-        self.label_frame = None  # should this be None on init?
+        self.label_frame: tk.LabelFrame | None = None
         self.parent = parent
+        self.PHANTOM_COL = "#0"
         self.records = records
-        self.tree_table = None  # should this be None on init?
+        self.tree_table: ttk.Treeview | None = None
         self.setup()
 
     def setup(self):
@@ -138,13 +139,10 @@ class TreeTable:
     def get_config(self) -> dict:
         """Copy config so unwanted cols can be filtered on load."""
         try:
-            column_configs = self.config[
-                "record_display"
-            ].copy()  # DON'T alter config directly
-            return column_configs
+            return self.config["record_display"].copy()
         except KeyError as e:
             print(f"ERROR in parse_config: {e}")
-            return e
+            raise
 
     def load_table_cols(self, config: dict):
         """
@@ -153,9 +151,8 @@ class TreeTable:
         NOTE: phantom col is filtered from names since it already exists in TreeView (by default) and does not need to be re-added.
         """
 
-        PHANTOM_COL = "#0"
         col_names = [name for name in config.keys()]
-        col_names.remove(PHANTOM_COL)
+        col_names.remove(self.PHANTOM_COL)
 
         # Columns must be added before they are modified
         self.tree_table["columns"] = col_names
@@ -175,7 +172,7 @@ class TreeTable:
         """
         if not self.records:
             print("No records to load")
-            return None
+            return
         print(f"Loading records to table ...")
         for record in self.records:
             date = record[0]
